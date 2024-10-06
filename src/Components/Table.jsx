@@ -141,7 +141,7 @@ const Table =  () => {
                 key={idx}
               >
                 <td className="px-4 py-2 ">
-                  <span className="text-md font-semibold">
+                  <span className="text-lg font-semibold">
                     <input type="checkbox" className="h-4 w-4 mr-2" />
                     {data?.date}
                   </span>{" "}
