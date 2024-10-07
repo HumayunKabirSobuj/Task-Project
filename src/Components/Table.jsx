@@ -20,7 +20,6 @@ const Table = ({ dateFilter }) => {
         setCurrentPageData(data.slice(0, itemsPerPage));
       });
   }, []);
-  console.log(allData);
 
   useEffect(() => {
     const start = pageNumber * itemsPerPage;
@@ -33,7 +32,7 @@ const Table = ({ dateFilter }) => {
     const start = pageNumber * itemsPerPage;
     const end = start + itemsPerPage;
     setCurrentPageData(filteredData.slice(start, end));
-  }, [pageNumber, allData, dateFilter]);
+  }, [pageNumber, allData, dateFilter,]);
 
   const applyDateFilter = (data) => {
     const today = new Date();

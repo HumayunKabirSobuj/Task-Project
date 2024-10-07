@@ -4,18 +4,25 @@ import { SiGooglegemini } from "react-icons/si";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import Image from "next/image";
 import { useState } from "react";
+import AddNowButton from "./AddNowButton";
+import BankAccounts from "./BankAccounts";
+import BankCards from "./BankCards";
+import BankStatement from "./BankStatement";
+import BankAccounts2 from "./BankAccounts2";
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState("Bank Accounts");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   return (
     <div>
       <div className="flex lg:flex-row flex-col lg:justify-between justify-center gap-3 items-center mb-6">
-        
         <div>
-          <h1 className="text-2xl font-bold lg:text-left md:text-left text-center">Banking</h1>
+          <h1 className="text-2xl font-bold lg:text-left md:text-left text-center">
+            Banking
+          </h1>
           <div className="flex space-x-2 bg-gray-100  rounded-xl border border-gray-400 mt-2 border-opacity-30">
             <button
               className={`px-4 py-1 rounded ${
@@ -74,6 +81,29 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      
+    
+  
+
+
+
+      <div>
+        {activeTab === "Bank Accounts" && <BankAccounts></BankAccounts>}
+      </div>
+      {
+        activeTab === "Bank Accounts" && <BankAccounts2></BankAccounts2>
+      }
+      <div>
+        {
+          activeTab === "Cards" && <BankCards></BankCards>
+        }
+      </div>
+      <div>
+        {
+          activeTab === "Statements" && <BankStatement></BankStatement>
+        }
+      </div>
+      <AddNowButton></AddNowButton>
     </div>
   );
 };
