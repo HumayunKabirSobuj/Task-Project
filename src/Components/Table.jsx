@@ -203,22 +203,22 @@ const Table =  () => {
 
                 <div className="mt-8">
                   {data?.status === "Pending" && (
-                    <td className=" justify-center py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500 mb-5 flex items-center ">
+                    <td className=" justify-center py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500 mb-4 flex items-center ">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "Reconciled" && (
-                    <td className=" justify-center py-2 text-green-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-green-500 mb-5 flex items-center ">
+                    <td className=" justify-center py-2 text-green-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-green-500 mb-4 flex items-center ">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "Unreconciled" && (
-                    <td className=" justify-center py-2 text-red-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-red-500 mb-5 flex items-cente">
+                    <td className=" justify-center py-2 text-red-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-red-500 mb-4 flex items-cente">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "In Progress" && (
-                    <td className="  py-2 text-blue-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-blue-500 mb-5 flex items-center  justify-center">
+                    <td className="  py-2 text-blue-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-blue-500 mb-4 flex items-center  justify-center">
                       {data?.status}
                     </td>
                   )}
