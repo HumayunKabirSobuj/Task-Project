@@ -18,8 +18,8 @@ const Table =  () => {
       fetch("/data.json")
         .then((res) => res.json())
         .then((data) => {
-          setAllData(data); // সার্ভার থেকে ডেটা আসার পর সেট করা হচ্ছে
-          setCurrentPageData(data.slice(0, itemsPerPage)); // প্রথম পৃষ্ঠার জন্য ডেটা
+          setAllData(data); 
+          setCurrentPageData(data.slice(0, itemsPerPage)); 
         });
     }, []);
     
@@ -257,3 +257,6 @@ const Table =  () => {
 
 
 export default Table;
+
+
+
