@@ -1,111 +1,98 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import { BsCalendar2Date } from "react-icons/bs";
 import { useEffect } from "react";
 import { FaArrowDown } from "react-icons/fa6";
 import { TiTick } from "react-icons/ti";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Pagination } from "./Pagination";
-const Table =  () => {
+const Table = ({ dateFilter }) => {
+  const [allData, setAllData] = useState([]);
+  const [currentPageData, setCurrentPageData] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const itemsPerPage = 10;
 
-    const [allData, setAllData] = useState([]);
-    const [currentPageData, setCurrentPageData] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0);
-    const itemsPerPage = 10; 
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllData(data);
+        setCurrentPageData(data.slice(0, itemsPerPage));
+      });
+  }, []);
+console.log(allData);
 
-    useEffect(() => {
-      fetch("/data.json")
-        .then((res) => res.json())
-        .then((data) => {
-          setAllData(data); 
-          setCurrentPageData(data.slice(0, itemsPerPage)); 
-        });
-    }, []);
-    
+  useEffect(() => {
+    const start = pageNumber * itemsPerPage;
+    const end = start + itemsPerPage;
+    setCurrentPageData(allData.slice(start, end));
+  }, [pageNumber, allData]);
 
-    // console.log(allData)
+  useEffect(() => {
+    const filteredData = applyDateFilter(allData);
+    const start = pageNumber * itemsPerPage;
+    const end = start + itemsPerPage;
+    setCurrentPageData(filteredData.slice(start, end));
+  }, [pageNumber, allData, dateFilter]);
 
-    useEffect(() => {
-      const start = pageNumber * itemsPerPage;
-      const end = start + itemsPerPage;
-      setCurrentPageData(allData.slice(start, end));
-    }, [pageNumber, allData]);
+ const applyDateFilter = (data) => {
+   const today = new Date();
+   let filteredData = [];
 
-    const handlePageChange = (num) => {
-      if (num < 0 || num >= Math.ceil(allData.length / itemsPerPage)) return;
-      setPageNumber(num);
-    };
+   switch (dateFilter) {
+     case "12 months":
+       const twelveMonthsAgo = new Date();
+       twelveMonthsAgo.setMonth(today.getMonth() - 12);
+       filteredData = data.filter(
+         (item) => new Date(item.date) >= twelveMonthsAgo
+       );
+       break;
+     case "30 days":
+       const thirtyDaysAgo = new Date();
+       thirtyDaysAgo.setDate(today.getDate() - 30);
+       filteredData = data.filter(
+         (item) => new Date(item.date) >= thirtyDaysAgo
+       );
+       break;
+     case "7 days":
+       const sevenDaysAgo = new Date();
+       sevenDaysAgo.setDate(today.getDate() - 7);
+       filteredData = data.filter(
+         (item) => new Date(item.date) >= sevenDaysAgo
+       );
+       break;
+     case "24 hours":
+       const twentyFourHoursAgo = new Date();
+       twentyFourHoursAgo.setHours(today.getHours() - 24);
+       filteredData = data.filter(
+         (item) => new Date(item.date) >= twentyFourHoursAgo
+       );
+       break;
+     case "Select dates":
+       // এখানে আপনি নির্দিষ্ট তারিখ নির্বাচন করতে পারেন
+       // যেমন: 2024-10-07 এ ডেটা ফিল্টার করতে
+       const selectedDate = new Date("2024-10-07");
+       filteredData = data.filter(
+         (item) =>
+           new Date(item.date).toDateString() === selectedDate.toDateString()
+       );
+       break;
+     default:
+       filteredData = data; // কোন ফিল্টার না থাকলে, সব ডেটা দেখান
+   }
 
-  const [dateFilter, setDateFilter] = useState("12 months");
-  const handleFilterClick = (filter) => {
-    setDateFilter(filter);
+   return filteredData;
+ };
+
+
+  const handlePageChange = (num) => {
+    if (num < 0 || num >= Math.ceil(allData.length / itemsPerPage)) return;
+    setPageNumber(num);
   };
+
+ 
   return (
     <div className="md:mb-10 mb-6">
-      {/* Recent Transaction */}
-      <div className="mt-6 ">
-        <div className="flex items-center lg:flex-row flex-col justify-between">
-          <div className="flex items-center lg:flex-row flex-col gap-2">
-            <h2 className="text-lg font-semibold">Recent Transaction</h2>
-            <p className="text-sm text-gray-500">
-              12 Months (10 Dec 2023 - 9 Dec 2024)
-            </p>
-          </div>
-          <div className="flex items-center lg:flex-row flex-col mt-5 gap-2">
-            <div className="flex  rounded-lg ">
-              <button
-                className={`px-4 py-2 rounded ${
-                  dateFilter === "12 months"
-                    ? "bg-gray-200 border-gray-400"
-                    : " text-gray-500"
-                }`}
-                onClick={() => handleFilterClick("12 months")}
-              >
-                12 months
-              </button>
-              <button
-                className={`px-4 py-2 rounded ${
-                  dateFilter === "30 days"
-                    ? "bg-gray-200 border-gray-400"
-                    : " text-gray-500"
-                }`}
-                onClick={() => handleFilterClick("30 days")}
-              >
-                30 days
-              </button>
-              <button
-                className={`px-4 py-2 rounded ${
-                  dateFilter === "7 days"
-                    ? "bg-gray-200 border-gray-400"
-                    : " text-gray-500"
-                }`}
-                onClick={() => handleFilterClick("7 days")}
-              >
-                7 days
-              </button>
-              <button
-                className={`px-4 py-2 rounded ${
-                  dateFilter === "24 hours"
-                    ? "bg-gray-200 border-gray-400"
-                    : " text-gray-500"
-                }`}
-                onClick={() => handleFilterClick("24 hours")}
-              >
-                24 hours
-              </button>
-            </div>
-            <button
-              className="px-4 py-2 rounded   text-gray-500 flex items-center  space-x-2 ml-3"
-              onClick={() => handleFilterClick("Select dates")}
-            >
-              <span>Select dates</span>
-              <BsCalendar2Date className="text-md" />
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Table Here */}
       <div className="overflow-x-auto rounded-t-2xl border border-gray-200 mt-6">
         <table className="min-w-full bg-white border border-gray-200  rounded-t-2xl  rounded-b-2xl">
