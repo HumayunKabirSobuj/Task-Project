@@ -141,13 +141,13 @@ const Table =  () => {
                 key={idx}
               >
                 <td className="px-4 py-2 ">
-                  <span className="text-lg font-semibold">
+                  <span className="text-md font-semibold">
                     <input type="checkbox" className="h-4 w-4 mr-2" />
                     {data?.date}
                   </span>{" "}
                   <br />{" "}
-                  <span className="text-md text-gray-500 font-semibold">
-                    <input type="checkbox" className="h-4 w-4" />
+                  <span className="text-sm text-gray-500 font-semibold">
+                    
                     {data?.time}
                   </span>
                 </td>
