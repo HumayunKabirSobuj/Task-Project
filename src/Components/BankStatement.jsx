@@ -48,7 +48,7 @@ const BankStatement = () => {
               </div>
             ))
           ) : (
-            <li>No cards available.</li>
+            <li>No cards available. Add a new statement..</li>
           )}
         </div>
       </div>

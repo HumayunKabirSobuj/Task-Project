@@ -25,7 +25,7 @@ const BankCards = () => {
               </div>
             ))
           ) : (
-            <li>No cards available.</li>
+            <li>No cards available. Add A new Card..</li>
           )}
         </div>
       </div>
