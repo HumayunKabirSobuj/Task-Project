@@ -20,7 +20,7 @@ const Table = ({ dateFilter }) => {
         setCurrentPageData(data.slice(0, itemsPerPage));
       });
   }, []);
-console.log(allData);
+  console.log(allData);
 
   useEffect(() => {
     const start = pageNumber * itemsPerPage;
@@ -35,62 +35,60 @@ console.log(allData);
     setCurrentPageData(filteredData.slice(start, end));
   }, [pageNumber, allData, dateFilter]);
 
- const applyDateFilter = (data) => {
-   const today = new Date();
-   let filteredData = [];
+  const applyDateFilter = (data) => {
+    const today = new Date();
+    let filteredData = [];
 
-   switch (dateFilter) {
-     case "12 months":
-       const twelveMonthsAgo = new Date();
-       twelveMonthsAgo.setMonth(today.getMonth() - 12);
-       filteredData = data.filter(
-         (item) => new Date(item.date) >= twelveMonthsAgo
-       );
-       break;
-     case "30 days":
-       const thirtyDaysAgo = new Date();
-       thirtyDaysAgo.setDate(today.getDate() - 30);
-       filteredData = data.filter(
-         (item) => new Date(item.date) >= thirtyDaysAgo
-       );
-       break;
-     case "7 days":
-       const sevenDaysAgo = new Date();
-       sevenDaysAgo.setDate(today.getDate() - 7);
-       filteredData = data.filter(
-         (item) => new Date(item.date) >= sevenDaysAgo
-       );
-       break;
-     case "24 hours":
-       const twentyFourHoursAgo = new Date();
-       twentyFourHoursAgo.setHours(today.getHours() - 24);
-       filteredData = data.filter(
-         (item) => new Date(item.date) >= twentyFourHoursAgo
-       );
-       break;
-     case "Select dates":
-       // এখানে আপনি নির্দিষ্ট তারিখ নির্বাচন করতে পারেন
-       // যেমন: 2024-10-07 এ ডেটা ফিল্টার করতে
-       const selectedDate = new Date("2024-10-07");
-       filteredData = data.filter(
-         (item) =>
-           new Date(item.date).toDateString() === selectedDate.toDateString()
-       );
-       break;
-     default:
-       filteredData = data; // কোন ফিল্টার না থাকলে, সব ডেটা দেখান
-   }
+    switch (dateFilter) {
+      case "12 months":
+        const twelveMonthsAgo = new Date();
+        twelveMonthsAgo.setMonth(today.getMonth() - 12);
+        filteredData = data.filter(
+          (item) => new Date(item.date) >= twelveMonthsAgo
+        );
+        break;
+      case "30 days":
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        filteredData = data.filter(
+          (item) => new Date(item.date) >= thirtyDaysAgo
+        );
+        break;
+      case "7 days":
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(today.getDate() - 7);
+        filteredData = data.filter(
+          (item) => new Date(item.date) >= sevenDaysAgo
+        );
+        break;
+      case "24 hours":
+        const twentyFourHoursAgo = new Date();
+        twentyFourHoursAgo.setHours(today.getHours() - 24);
+        filteredData = data.filter(
+          (item) => new Date(item.date) >= twentyFourHoursAgo
+        );
+        break;
+      case "Select dates":
+        // এখানে আপনি নির্দিষ্ট তারিখ নির্বাচন করতে পারেন
+        // যেমন: 2024-10-07 এ ডেটা ফিল্টার করতে
+        const selectedDate = new Date("2024-10-07");
+        filteredData = data.filter(
+          (item) =>
+            new Date(item.date).toDateString() === selectedDate.toDateString()
+        );
+        break;
+      default:
+        filteredData = data; // কোন ফিল্টার না থাকলে, সব ডেটা দেখান
+    }
 
-   return filteredData;
- };
-
+    return filteredData;
+  };
 
   const handlePageChange = (num) => {
     if (num < 0 || num >= Math.ceil(allData.length / itemsPerPage)) return;
     setPageNumber(num);
   };
 
- 
   return (
     <div className="md:mb-10 mb-6">
       {/* Table Here */}
@@ -178,7 +176,7 @@ console.log(allData);
                     </td>
                   )}
                   {data?.transactionType === "Expense" && (
-                    <td className="px-4 py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500  flex items-center mt-2">
+                    <td className="px-4 py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500  flex items-center mb-1">
                       {" "}
                       <TiTick className="text-md" />
                       {data?.transactionType}
@@ -190,12 +188,12 @@ console.log(allData);
 
                 <div className="mt-8">
                   {data?.status === "Pending" && (
-                    <td className=" justify-center py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500 mb-4 flex items-center ">
+                    <td className=" justify-center py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500 mb-6 flex items-center ">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "Reconciled" && (
-                    <td className=" justify-center py-2 text-green-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-green-500 mb-4 flex items-center ">
+                    <td className=" justify-center py-2 text-green-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-green-500 mb-6 flex items-center ">
                       {data?.status}
                     </td>
                   )}
@@ -231,6 +229,9 @@ console.log(allData);
         </table>
       </div>
 
+
+
+      {/* Pagination component call */}
       <div>
         <Pagination
           pageNumber={pageNumber}
@@ -242,8 +243,4 @@ console.log(allData);
   );
 };
 
-
 export default Table;
-
-
-

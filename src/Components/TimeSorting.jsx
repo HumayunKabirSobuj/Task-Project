@@ -10,7 +10,6 @@ const TimeSorting = () => {
       setDateFilter(filter);
     };
 
-    // console.log(dateFilter)
   return (
     <div>
       {/* Recent Transaction */}
@@ -75,6 +74,8 @@ const TimeSorting = () => {
           </div>
         </div>
       </div>
+
+      {/* Table Components Here */}
       <div>
         <Table dateFilter={dateFilter}></Table>
       </div>
