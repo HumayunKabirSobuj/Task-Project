@@ -6,19 +6,36 @@ import { useEffect } from "react";
 import { FaArrowDown } from "react-icons/fa6";
 import { TiTick } from "react-icons/ti";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { Pagination } from "./Pagination";
 const Table =  () => {
 
     const [allData, setAllData] = useState([]);
+    const [currentPageData, setCurrentPageData] = useState([]);
+    const [pageNumber, setPageNumber] = useState(0);
+    const itemsPerPage = 10; 
 
-    useEffect(()=>{
-        fetch("/data.json")
+    useEffect(() => {
+      fetch("/data.json")
         .then((res) => res.json())
         .then((data) => {
-         setAllData(data);
+          setAllData(data); // সার্ভার থেকে ডেটা আসার পর সেট করা হচ্ছে
+          setCurrentPageData(data.slice(0, itemsPerPage)); // প্রথম পৃষ্ঠার জন্য ডেটা
         });
-    },[])
+    }, []);
+    
 
-    console.log(allData)
+    // console.log(allData)
+
+    useEffect(() => {
+      const start = pageNumber * itemsPerPage;
+      const end = start + itemsPerPage;
+      setCurrentPageData(allData.slice(start, end));
+    }, [pageNumber, allData]);
+
+    const handlePageChange = (num) => {
+      if (num < 0 || num >= Math.ceil(allData.length / itemsPerPage)) return;
+      setPageNumber(num);
+    };
 
   const [dateFilter, setDateFilter] = useState("12 months");
   const handleFilterClick = (filter) => {
@@ -135,7 +152,7 @@ const Table =  () => {
             </tr>
           </thead>
           <tbody className="border border-gray-400  border-opacity-35 ">
-            {allData.map((data, idx) => (
+            {currentPageData.map((data, idx) => (
               <tr
                 className="border border-gray-400  border-opacity-35 "
                 key={idx}
@@ -147,7 +164,6 @@ const Table =  () => {
                   </span>{" "}
                   <br />{" "}
                   <span className="text-sm text-gray-500 font-semibold">
-                    
                     {data?.time}
                   </span>
                 </td>
@@ -187,22 +203,22 @@ const Table =  () => {
 
                 <div className="mt-8">
                   {data?.status === "Pending" && (
-                    <td className=" justify-center py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500  flex items-center ">
+                    <td className=" justify-center py-2 text-yellow-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-yellow-500 mb-5 flex items-center ">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "Reconciled" && (
-                    <td className=" justify-center py-2 text-green-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-green-500  flex items-center ">
+                    <td className=" justify-center py-2 text-green-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-green-500 mb-5 flex items-center ">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "Unreconciled" && (
-                    <td className=" justify-center py-2 text-red-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-red-500  flex items-cente">
+                    <td className=" justify-center py-2 text-red-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-red-500 mb-5 flex items-cente">
                       {data?.status}
                     </td>
                   )}
                   {data?.status === "In Progress" && (
-                    <td className="  py-2 text-blue-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-blue-500  flex items-center  justify-center">
+                    <td className="  py-2 text-blue-500 font-semibold w-28 text-md h-8 border rounded-xl bg-green-200 bg-opacity-30 border-blue-500 mb-5 flex items-center  justify-center">
                       {data?.status}
                     </td>
                   )}
@@ -226,6 +242,14 @@ const Table =  () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div>
+        <Pagination
+          pageNumber={pageNumber}
+          setPageNumber={handlePageChange}
+          totalPages={Math.ceil(allData.length / itemsPerPage)}
+        ></Pagination>
       </div>
     </div>
   );
