@@ -10,5 +10,4 @@ const AddNowButton = () => {
     </div>
   );
 }
-
 export default AddNowButton
