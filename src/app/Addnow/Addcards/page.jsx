@@ -1,32 +1,31 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 
 const Page = () => {
+  const router = useRouter();
 
-   
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const number = e.target.number.value;
+    const newCard = { name, number };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const name = e.target.name.value;
-      const number = e.target.number.value;
-      const newCard = { name, number };
+    const storedCards = JSON.parse(localStorage.getItem("cards")) || [];
+    const updatedCards = [...storedCards, newCard];
+    localStorage.setItem("cards", JSON.stringify(updatedCards));
+    Swal.fire({
+      position: "top",
+      icon: "success",
+      title: "Card Data Added Succesfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
 
-      
-      const storedCards = JSON.parse(localStorage.getItem("cards")) || [];
-      const updatedCards = [...storedCards, newCard];
-      localStorage.setItem("cards", JSON.stringify(updatedCards));
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: "Card Data Added Succesfully",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      e.target.reset();
-
-    };
+    e.target.reset();
+    router.push("/");
+  };
   return (
     <div className="flex lg:px-0 px-5 items-center justify-center min-h-screen bg-gray-100 rounded-2xl">
       <div className="group mx-auto flex w-full max-w-xl border border-blue-400 bg-white text-blue-400 shadow-lg dark:bg-zinc-900 rounded-2xl">

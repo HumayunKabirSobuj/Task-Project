@@ -1,8 +1,11 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 
 const Page = () => {
+
+  const router=useRouter()
   const handleSubmit = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -21,7 +24,9 @@ const Page = () => {
       timer: 1500,
     });
 
+    router.push('/')
     e.target.reset();
+
   };
   return (
     <div className="flex lg:px-0 px-5 items-center justify-center min-h-screen bg-gray-100 rounded-2xl">

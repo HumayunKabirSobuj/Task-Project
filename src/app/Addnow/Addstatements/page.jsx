@@ -2,35 +2,36 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 export default function App() {
+  const router = useRouter();
+
   const [fromData, setFromData] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const {
     register,
-    handleSubmit,reset ,
-    
+    handleSubmit,
+    reset,
+
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => { const storedStatements = JSON.parse(localStorage.getItem("statements")) || [];
-  const updatedStatements = [...storedStatements, data];
-  localStorage.setItem("statements", JSON.stringify(updatedStatements));
-  Swal.fire({
-    position: "top",
-    icon: "success",
-    title: "Statement Added Succesfully",
-    showConfirmButton: false,
-    timer: 1500,
-  });
-reset();
-
-};
-
- 
-
-
-
+  const onSubmit = (data) => {
+    const storedStatements =
+      JSON.parse(localStorage.getItem("statements")) || [];
+    const updatedStatements = [...storedStatements, data];
+    localStorage.setItem("statements", JSON.stringify(updatedStatements));
+    Swal.fire({
+      position: "top",
+      icon: "success",
+      title: "Statement Added Succesfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    reset();
+    router.push("/");
+  };
 
   return (
     <div className="flex lg:px-0 px-5 items-center justify-center min-h-screen bg-gray-100 rounded-2xl">
